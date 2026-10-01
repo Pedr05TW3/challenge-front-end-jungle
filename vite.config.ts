@@ -1,0 +1,3 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+export default defineConfig({ plugins: [react()], server: { port: 5173 }, preview: { port: 4173 }, build:{rollupOptions:{output:{manualChunks(id){if(id.includes('/node_modules/msw/')||id.includes('/node_modules/@mswjs/'))return 'mock-engine';if(id.includes('/node_modules/socket.io-client/')||id.includes('/node_modules/engine.io-client/'))return 'socket-client';if(id.includes('/node_modules/@tanstack/'))return 'data-client';if(id.includes('/node_modules/react/')||id.includes('/node_modules/react-dom/'))return 'react-vendor'}}}} });

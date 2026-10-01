@@ -1,0 +1,1 @@
+export default [{ignores:['dist/**','node_modules/**','public/mockServiceWorker.js','playwright-report/**','test-results/**','reports/**']},{files:['**/*.js'],rules:{'no-constant-condition':'warn'}}];

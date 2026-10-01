@@ -1,0 +1,4 @@
+import { io, type Socket } from 'socket.io-client';
+let socket:Socket|undefined;const versions=new Map<string,number>();
+export async function connectRealtime(){if(socket)return socket;socket=io(location.origin,{path:'/socket.io/',transports:['websocket'],reconnection:true,reconnectionAttempts:Infinity});socket.on('connect',()=>socket?.emit('subscribe',{resource:'market'}));socket.on('nft.updated',(event:{id:string;resource:'nft';price:string;supply:number;version:number})=>{if(!event?.id||event.version<=(versions.get(event.id)||0))return;versions.set(event.id,event.version);window.dispatchEvent(new CustomEvent('kurio:nft.updated',{detail:event}))});socket.on('order.updated',(event:{id:string;status:string;version:number})=>window.dispatchEvent(new CustomEvent('kurio:order.updated',{detail:event})));return socket}
+export function closeRealtime(){socket?.disconnect();socket=undefined;versions.clear()}
